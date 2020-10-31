@@ -1,0 +1,47 @@
+<section class="page-image page-image-about md-padding">
+    <h1 class="text-white text-center">Admin Post List Page</h1>
+</section>
+<section id="aboutus" class="md-padding">
+    <div class="container">
+        {{>admin-nav}}
+        <div class="clearfix"></div>
+        <div class="mb-5"></div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Subtitle</th>
+                            <th>x</th>
+                            <th>x</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each posts}}
+                        <tr>
+                            <td>{{this.title}}</td>
+                            <td>{{this.category}}</td>
+                            <td>{{this.subtitle}}</td>
+                            <td>
+                                <a class="btn btn-primary" href="/admin/blogs/edit/{{id}}">EDIT</a>
+                            </td>
+                            <td>
+                                <form action="/admin/blogs/{{id}}?_method=DELETE" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</section>

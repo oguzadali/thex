@@ -1,0 +1,113 @@
+<!--==========================
+    INSIDE HERO SECTION Section
+============================-->
+<script language="JavaScript" type="text/javascript" src="/js/jquery-editor.js"></script>
+<script>
+
+    $(document)
+        .ready(function () {
+
+            $("#myButton").click(() => {
+                var title = $("#title").val()
+                var subtitle = $("#subtitle").val()
+                var imageUrl = $("#imageurl").val()
+                // var category = $("#category").val()
+                // var file = $("#file").val()
+                var content = CKEDITOR.instances.mytextarea.getData()
+                //turn in to single data
+                var data = {
+                    title: title,
+                    subtitle: subtitle,
+                    //category: category,
+                    imageurl: imageurl,
+                    content: content,
+                    // file: file,
+                }
+                $.post("new", { data: data })
+                    .then((addedBlog) => {
+                        console.log(addedBlog);
+                    })
+
+                // console.log(title + "****" + contentence + "******" + imageUrl + "***" + blog);
+            })
+        })
+
+
+</script>
+
+<section class="page-image page-image-contact md-padding">
+    <h1 class="text-white text-center">ADD NEW POST</h1>
+</section>
+
+<!--==========================
+    Contact Section
+============================-->
+<section id="contact" class="md-padding">
+    <div class="container">
+
+        <div class="row text-center">
+            <div class="col-md-4 offset-md-4">
+                <div class="section-header">
+                    <h2 class="title">NEW POST</h2>
+                </div>
+            </div>
+        </div>
+
+
+
+        <form action="">
+
+
+            <div class="form-group">
+                <input class="form-control" id="title" type="text" placeholder="header"
+                    data-validation-required-message="Please enter your name.">
+                <p class="help-block text-danger"></p>
+            </div>
+
+
+            <div class="form-group">
+                <input class="form-control" id="subtitle" type="text" placeholder="subheader"
+                    data-validation-required-message="Please enter your email address.">
+                <p class="help-block text-danger"></p>
+            </div>
+
+
+            <div class="form-group">
+                <input class="form-control" id="imageurl" type="url" placeholder="Main imageurl"
+                    data-validation-required-message="Please enter image url.">
+                <p class="help-block text-danger"></p>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="category">
+                    {{#each categorys}}
+                    <option value="{{this.id}}">{{this.name}}</option>
+                    {{/each }}
+                </select>
+            </div>
+            <div class="form-group">
+                <input class="form-control" id="file" type="file" placeholder="File">
+                <p class="help-block text-danger"></p>
+            </div>
+
+
+            {{!-- textarea name changed content>editor and added id --}}
+            <textarea class="form-control" name="editor" id="mytextarea" placeholder="Content"
+                data-validation-required-message="Please enter content"></textarea>
+            <p class="help-block text-danger"></p>
+
+            <div class="clearfix"></div>
+
+            <div id="success"></div>
+            <button type="button" id="myButton" class="main-btn">Add Post</button>
+
+
+            <script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script>
+            <script>
+                CKEDITOR.replace("editor")
+            </script>
+        </form>
+
+
+
+    </div>
+</section>

@@ -1,0 +1,63 @@
+<section class="page-image page-image-blog md-padding">
+    <h1 class="text-white text-center">BLOG</h1>
+</section>
+
+<section id="blog" class="md-padding">
+    <div class="container">
+        {{#if sessionFlash.message}}
+        <div class="{{sessionFlash.type}}">
+            {{sessionFlash.message}}
+        </div>
+        {{/if}}
+        <div class="row">
+            <main id="main" class="col-md-8">
+                <div class="row">
+                    {{#each posts}}
+                    <div class="col-md-6">
+                        <div class="blog">
+                            <div class="blog-img">
+                                <img src="{{imageurl}}" class="img-fluid">
+                            </div>
+                            <div class="blog-content">
+                                <ul class="blog-meta">
+                                    <li><i class="fas fa-users"></i><span class="writer">{{author}}</span>
+                                    </li>
+                                    <li><i class="fas fa-clock"></i><span
+                                            class="writer">{{generateDate this.date 'DD MM YYYY hh:mm'}}</span></li>
+                                    <li><i class="fas fa-comments"></i><span class="writer">13</span></li>
+                                </ul>
+                                <h3>{{this.title}}</h3>
+                                <p>{{truncate subtitle 70}}</p>
+                                <a href="/posts/{{this.id}}">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+
+
+                            {{#paginate current=current pages=pages}}
+                            {{/paginate}}
+
+                        </ul>
+                    </nav>
+                </div>
+            </main>
+
+            <aside id="aside" class="col-md-4">
+
+
+                <!-- /Search+Category -->
+                {{>site-sidebar}}
+
+                <!--Latest Posts sidebar -->
+                {{>latest-posts-sidebar}}
+
+
+
+            </aside>
+        </div>
+    </div>
+</section>

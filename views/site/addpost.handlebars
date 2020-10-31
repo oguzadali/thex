@@ -1,0 +1,84 @@
+<script language="JavaScript" type="text/javascript" src="/js/jquery-editor.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#myButton").click(() => {
+            var title = $("#blogTitle").val()
+            var subtitle = $("#blogSubTitle").val()
+            //var content = $("#blogContentence").val()
+            var imageurl = $("#blogImage").val()
+            var category = $("#category").val()
+            //var file = $("#file").val()
+            var content = CKEDITOR.instances.mytextarea.getData()
+            //turn in to single data
+            var data = {
+                title: title,
+                subtitle: subtitle,
+
+                imageurl: imageurl,
+                content: content,
+                category: category,
+                //file: file
+            }
+            $.post("new", { data: data })
+                .then((addedBlog) => {
+                    console.log("ssss")
+                    console.log(addedBlog);
+                })
+
+            // console.log(title + "****" + contentence + "******" + imageUrl + "***" + blog);
+        })
+    })
+
+
+</script>
+
+<style>
+    #mainNav {
+        background-color: #100c07;
+    }
+</style>
+<section class="page-image page-image-contact md-padding">
+    <h1 class="text-white text-center">ADD NEW POST</h1>
+</section>
+
+<br><br><br><br><br><br>
+<div class="container">
+    <h2 style="text-align:center; margin-bottom:40px ;">Add New Blog</h2>
+    <form action="">
+        <div class="form-group">
+            <label for="blogTitle">Blog title</label>
+            <input type="text" class="form-control" id="blogTitle" placeholder="blogtitle">
+        </div>
+        <div class="form-group">
+            <label for="blogTitle">Blog subtitle</label>
+            <input type="text" class="form-control" id="blogSubTitle" placeholder="subtitle">
+        </div>
+
+        <div class="form-group">
+            <label for="blogImage">Image Url</label>
+            <input type="url" class="form-control" id="blogImage" placeholder="Image Url">
+        </div>
+        <div class="form-group">
+            <select class="form-control" id="category">
+                {{#each categorys}}
+                <option value="{{this.id}}">{{this.name}}</option>
+                {{/each }}
+            </select>
+        </div>
+
+
+        <textarea name="editor" id="mytextarea"></textarea>
+
+        <button type="button" id="myButton" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<br><br><br>
+<hr><br><br>
+
+{{!-- <script src="//cdn.ckeditor.com/4.15.0/standard/ckeditor.js"></script> --}}
+<script src="//cdn.ckeditor.com/4.15.0/full/ckeditor.js"></script>
+
+<script>
+    CKEDITOR.replace("editor")
+</script>

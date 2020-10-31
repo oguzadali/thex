@@ -1,0 +1,16 @@
+<div style="position:sticky; top:100px;" class="widget">
+    <h3 class="mb-3">Latest Posts</h3>
+    {{!--   (limiter posts 3) latestPosts --}}
+    {{#each latestPosts }}
+
+    <div class="widget-post">
+        <a href="/posts/{{this.id}}">
+            <img class="img-fluid" src="{{this.imageurl}}" alt="">{{this.title}}
+        </a>
+        <ul class="blog-meta">
+            <li>{{generateDate this.date 'DD MM YYYY hh:mm'}}</li>
+        </ul>
+    </div>
+    {{/each}}
+
+</div>
