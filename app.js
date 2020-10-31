@@ -2,28 +2,31 @@ const express = require('express')
 const path = require('path');//used for connect html in express
 const favicon = require('serve-favicon'); //used for fav.ico
 const exphbs = require('express-handlebars');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const session = require('express-session')
 
 const localStrategy = require("passport-local")
 const passport = require("passport")
+const dotenv = require("dotenv")
 const User = require('./models/User');
 
 // const fs = require('fs')
 const morgan = require('morgan')
 
 const methodOverride = require('method-override')
-const MongoStore = require('connect-mongo')(session)
 const generateDate = require('./helpers/generateDate').generateDate;
 const limiter = require("./helpers/limitGetPost").limit
 const truncate = require("./helpers/limitGetText").truncate
 const paginate = require("./helpers/paginate").paginate
+const connect2db = require('./helpers/database/connect2mongo');
 
+dotenv.config({
+    path: "./config/env/config.env"
+})
 
 const app = express()
-const port = 3000
+const port = process.env.PORT
 
 app.use(methodOverride('_method'))
 
@@ -58,17 +61,9 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
 app.use(bodyParser.json())
 
-mongoose.connect('mongodb+srv://adminnn1:789695aa@firstmongo.8zt1w.mongodb.net/node_clean_blog_2?retryWrites=true&w=majority', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-}).then(() => {
-    console.log("mongodb connected  ***!!")
-})
-    .catch(err => {
-        console.log(err)
-    })
+//Connect mongoose
+connect2db()
+
 
 app.use(require("express-session")({
     secret: " secret word",
@@ -128,5 +123,5 @@ app.use("/contact", contact)
 
 
 app.listen(port, () => {
-    console.log(`Blog app listening at http://localhost:${port}`)
+    console.log(`Blog app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`)
 })
