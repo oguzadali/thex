@@ -10,4 +10,10 @@ const UserSchema = new mongoose.Schema({
 
 })
 UserSchema.plugin(passportLocalMongoose)
+
+UserSchema.pre("save", function (next) {
+    console.log("saved");
+    next()
+})
+
 module.exports = mongoose.model("User", UserSchema)

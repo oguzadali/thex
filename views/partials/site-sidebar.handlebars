@@ -1,7 +1,7 @@
 <div class="widget">
     <div class="widget-search">
         <form action="/posts/search" method="GET">
-            <input name="data" class="search-input form-control" type="text" placeholder="Search">
+            <input name="searchData" class="search-input form-control" type="text" placeholder="Search">
             <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
         </form>
     </div>
@@ -11,7 +11,8 @@
     <h3 class="mb-3">Categories</h3>
     <div class="widget-category">
         {{#each categorys}}
-        <a href="/posts/category/{{this.id}}">{{this.name}}<span>{{this.count}}</span></a>
+        <a href="/posts/category/{{this.id}}">{{this.name}}</a>
+        {{!-- <a href="/posts/category/{{this.id}}">{{this.name}}<span>{{this.count}}</span></a> --}}
         {{/each}}
     </div>
 </div>

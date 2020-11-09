@@ -3,6 +3,9 @@ const session = require('express-session');
 const router = express.Router()
 const User = require('../models/User');
 const passport = require("passport")
+const { registerQueryMiddleware } = require('../middlewares/query/userQuery');
+
+
 
 //LOGIN 
 router.get('/login', function (req, res, next) {
@@ -22,17 +25,18 @@ router.get('/register', function (req, res, next) {
     res.render("site/register");
 });
 
-router.post("/register", (req, res) => {
-    // console.log(req.body);
-    let newUser = new User({ username: req.body.username, email: req.body.email })
-    User.register(newUser, req.body.password, (err, user) => {
+
+router.post("/-cregister", async (req, res) => {
+    console.log(req.body);
+    let newUser = await new User({ username: req.body.username, email: req.body.email })
+    await User.register(newUser, req.body.password, (err, user) => {
 
         if (err) {
             console.log(err)
 
             res.redirect("/users/register")
         }
-        console.log(this.user);
+
         passport.authenticate("local")(req, res, () => {
             res.redirect("/")
         })
@@ -40,15 +44,15 @@ router.post("/register", (req, res) => {
     })
 })
 
+router.post("/register", registerQueryMiddleware())
+
 
 
 //LOGOUT 
 router.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect("/")
-
 });
-
 
 
 

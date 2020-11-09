@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 router.get('/', function (req, res, next) {
     res.render("site/contact");
 });
+
 router.post('/email', function (req, res, next) {
     const outputHTML = `
     <div class="container">

@@ -120,8 +120,6 @@ app.use("/users", users)
 app.use("/admin", admin)
 app.use("/contact", contact)
 
-
-
 app.listen(port, () => {
     console.log(`Blog app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`)
 })
