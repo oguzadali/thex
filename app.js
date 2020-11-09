@@ -25,6 +25,8 @@ dotenv.config({
     path: "./config/env/config.env"
 })
 
+const routes = require("./routes/index-route");
+
 const app = express()
 const port = process.env.PORT
 
@@ -105,20 +107,9 @@ app.use((req, res, next) => {
     next()
 })
 
+//ROUTES
+app.use("/", routes)
 
-const main = require("./routes/main")
-const posts = require("./routes/posts");
-const users = require("./routes/users");
-const contact = require("./routes/contact");
-const admin = require("./routes/admin/index")
-
-
-//use static files /making public of  statics
-app.use("/", main)
-app.use("/posts", posts)
-app.use("/users", users)
-app.use("/admin", admin)
-app.use("/contact", contact)
 
 app.listen(port, () => {
     console.log(`Blog app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`)
