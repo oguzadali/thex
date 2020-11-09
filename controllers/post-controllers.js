@@ -87,22 +87,28 @@ const getSinglePostAndCategories = errorWrapper(async (req, res, next) => {
         })
     }
 
-    const latestPostDatas = {
-        data: res.d.dataL.map(a => {
-            return {
-                title: a.title,
-                imageurl: a.imageurl,
-                id: a._id,
-                date: a.date
-            }
-        })
+    let latestPostDatas
+
+    if (res.d.dataL) {
+        latestPostDatas = {
+            data: res.d.dataL.map(a => {
+                return {
+                    title: a.title,
+                    imageurl: a.imageurl,
+                    id: a._id,
+                    date: a.date
+                }
+            })
+        }
+    } else {
+        latestPostDatas = {}
     }
 
 
     res.render("site/post", {
         post: hbsSecureData,
         categorys: hbsSecureDataforCategories.categories,
-        latestPosts: latestPostDatas.data
+        latestPosts: latestPostDatas.data || latestPostDatas
 
     });
     // next()

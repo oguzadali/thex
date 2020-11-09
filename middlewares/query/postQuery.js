@@ -33,17 +33,17 @@ const indexQueryMiddleware = function (model, options) {
 
         if (!req.params.categoryId && !req.query.searchData) {
             prm = {}
-            console.log("yok");
+            // console.log("yok");
         } else {
             if (req.params.categoryId) {
                 prm = { category: req.params.categoryId }
                 queryL = latestPostsHelper(Post).populate({ path: "author", select: "username", model: User })
-                console.log("category param");
+                // console.log("category param");
             }
             else if (req.query.searchData) {
                 const regex = new RegExp(escapeRegex(req.query.searchData), 'gi')
 
-                console.log("sdata param");
+                // console.log("sdata param");
                 prm = { "title": regex }
                 queryL = latestPostsHelper(Post)
             }

@@ -54,7 +54,11 @@
                         {{#each categorys}}
                         <tr>
                             <td>{{this.name}}</td>
+                            {{#if this.id}}
                             <td>{{this.id}}</td>
+                            {{else }}
+                            <td>no id</td>
+                            {{/if}}
                             <td>
                                 <form action="/admin/categories/{{id}}?_method=DELETE" method="POST">
                                     <input type="hidden" name="_method" value="DELETE">
