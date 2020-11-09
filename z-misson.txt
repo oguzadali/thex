@@ -1,3 +1,0 @@
---Make different function get data from db operations
---Error manage
---404 page
