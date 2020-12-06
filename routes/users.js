@@ -14,7 +14,7 @@ router.get('/login', function (req, res, next) {
 
 router.post("/login", passport.authenticate("local",
     {
-        successRedirect: "/",
+        successRedirect: "/admin",
         // successMessage: "success authorizate",
         failureRedirect: "/users/login",
         // failureFlash: "Invalid username or password.Or error"
@@ -26,34 +26,13 @@ router.get('/register', function (req, res, next) {
 });
 
 
-router.post("/-cregister", async (req, res) => {
-    console.log(req.body);
-    let newUser = await new User({ username: req.body.username, email: req.body.email })
-    await User.register(newUser, req.body.password, (err, user) => {
-
-        if (err) {
-            console.log(err)
-
-            res.redirect("/users/register")
-        }
-
-        passport.authenticate("local")(req, res, () => {
-            res.redirect("/")
-        })
-
-    })
-})
-
 router.post("/register", registerQueryMiddleware())
-
-
 
 //LOGOUT 
 router.get('/logout', function (req, res, next) {
     req.logout();
     res.redirect("/")
 });
-
 
 
 module.exports = router

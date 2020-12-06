@@ -25,7 +25,7 @@
                             <td>{{this.category}}</td>
                             <td>{{this.subtitle}}</td>
                             <td>
-                                <a class="btn btn-primary" href="/admin/blogs/edit/{{id}}">EDIT</a>
+                                <a class="btn btn-primary" href="/admin/blogs/edit/{{this.slug}}">EDIT</a>
                             </td>
                             <td>
                                 <form action="/admin/blogs/{{id}}?_method=DELETE" method="POST">
@@ -42,17 +42,10 @@
         <div class="row">
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-
-
                     {{#paginate current=current pages=pages}}
                     {{/paginate}}
-
                 </ul>
             </nav>
         </div>
-
-
-
-
     </div>
 </section>

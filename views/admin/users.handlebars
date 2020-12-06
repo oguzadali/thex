@@ -1,0 +1,36 @@
+<section class="page-image page-image-about md-padding">
+    <h1 class="text-white text-center">USERS</h1>
+</section>
+
+<section id="aboutus" class="md-padding">
+    <div class="container">
+        {{>admin-nav}}
+
+    </div>
+</section>
+<section id="team" class="md-padding">
+    <div class="container">
+
+        <div class="container" style="text-align: center;">
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Mail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each users}}
+                    <tr>
+                        <td><a href="">{{this.username}}</a> <span class="badge badge-danger">{{this.count}}</span></td>
+
+                        <td>admin</td>
+                        <td>---</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

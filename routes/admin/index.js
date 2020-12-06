@@ -8,7 +8,8 @@ const { categoryQueryMiddleware, indexQueryMiddleware, postQueryMiddleware } = r
 
 const { getAdminCategories, deleteCategories,
     addNewCategory, getAllPostsAdmin, deletePost,
-    getAdminSinglePostAndCategories, editPost } = require('../../controllers/admin-controllers');
+    getAdminSinglePostAndCategories, editPost, getAllUsersWithPostsCount } = require('../../controllers/admin-controllers');
+const { userQueryMiddleware } = require('../../middlewares/query/userQuery');
 
 
 const router = express.Router()
@@ -36,10 +37,14 @@ router.get('/blogs', isLoggedIn, indexQueryMiddleware(Post), getAllPostsAdmin)
 router.delete('/blogs/:id', isLoggedIn, deletePost)
 
 //GET POST TO UPDATE FORM-
-router.get('/blogs/edit/:id', isLoggedIn, postQueryMiddleware(Post), getAdminSinglePostAndCategories)
+router.get('/blogs/edit/:slug', isLoggedIn, postQueryMiddleware(Post), getAdminSinglePostAndCategories)
 
 //UPDATE POST 
-router.post("/blogs/edit/:id", isLoggedIn, editPost)
+router.post("/blogs/edit/:slug", isLoggedIn, editPost)
+
+
+//USERS
+router.get('/users', userQueryMiddleware())
 
 
 module.exports = router

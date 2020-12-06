@@ -33,10 +33,10 @@
                         </div>
                     </div>
                     {{/each}}
-
+                </div>
+                <div class="row" style="justify-content: center;margin-top: 50px; margin-bottom:40px;">
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
-
 
                             {{#paginate current=current pages=pages}}
                             {{/paginate}}
@@ -48,14 +48,11 @@
 
             <aside id="aside" class="col-md-4">
 
-
                 <!-- /Search+Category -->
                 {{>site-sidebar}}
 
                 <!--Latest Posts sidebar -->
                 {{>latest-posts-sidebar}}
-
-
 
             </aside>
         </div>

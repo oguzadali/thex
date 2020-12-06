@@ -57,6 +57,7 @@ const getAllPostsAdmin = errorWrapper(async (req, res, next) => {
                 title: d.title,
                 subtitle: d.subtitle,
                 imageurl: d.imageurl,
+                slug: d.slug,
                 date: d.date,
                 id: d._id,
                 author: d.author.username,
@@ -123,7 +124,7 @@ const getAdminSinglePostAndCategories = errorWrapper(async (req, res, next) => {
 //EDIT POST
 const editPost = errorWrapper(async (req, res, next) => {
     const form = req.body.data
-    Post.findByIdAndUpdate(req.params.id).populate({ path: "author", select: "username", model: User })
+    Post.findOne({ slug: req.params.slug }).populate({ path: "author", select: "username", model: User })
         .populate({ path: "category", select: "name", model: Category })
         .then(documents => {
             // console.log(documents);
@@ -143,6 +144,22 @@ const editPost = errorWrapper(async (req, res, next) => {
         })
 })
 
+const getAllUsersWithPostsCount = errorWrapper(async (req, res, next) => {
+    const hbsSecureData = {
+        posts: res.d.data.map(d => {
+            return {
+                title: d.title,
+
+            }
+        })
+    }
+    res.render("admin/posts", {
+
+
+    });
+})
+
+
 module.exports = {
     getAdminCategories,
     deleteCategories,
@@ -150,6 +167,7 @@ module.exports = {
     getAllPostsAdmin,
     deletePost,
     getAdminSinglePostAndCategories,
-    editPost
+    editPost,
+    getAllUsersWithPostsCount
 
 };
