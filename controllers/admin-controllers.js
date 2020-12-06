@@ -1,7 +1,7 @@
 const Post = require("../models/Post");
 const Category = require('../models/Category');
 const User = require('../models/User');
-
+const { slugHelper } = require("../helpers/slug")
 const errorWrapper = require("../helpers/error/errorWrapper.js");
 const CustomError = require("../helpers/error/customError");
 
@@ -32,14 +32,15 @@ const deleteCategories = errorWrapper(async (req, res, next) => {
 });
 
 //ADD NEW CATEGORY
-//NEW POST
 const addNewCategory = errorWrapper(async (req, res, next) => {
-
-    Category.create(req.body, (err, category) => {
+    console.log(req.body);
+    let slug = slugHelper(req.body.name)
+    console.log(slug);
+    Category.create({ ...req.body, slug: slug }, (err, category) => {
         if (err) {
             console.log(err, "category post err:", 12);
         }
-        // console.log(category);
+        console.log(category);
     })
 
     res.redirect("/admin/categories");
@@ -128,11 +129,13 @@ const editPost = errorWrapper(async (req, res, next) => {
             // console.log(documents);
 
             documents.title = form.title,
+                documents.slug = slugHelper(form.title),
                 documents.subtitle = form.subtitle,
                 documents.imageurl = form.imageurl,
                 documents.content = form.content,
                 documents.author = documents.author,
                 documents.category = form.category,
+
                 documents.save()
                     .then(documents => {
                         res.redirect("/admin/blogs")

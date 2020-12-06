@@ -17,10 +17,8 @@ const {
 const indexQueryMiddleware = function (model, options) {
     return errorWrapper(async function (req, res, next) {
         // Initial Query
-
         const postPerPage = 8;
         const page = req.query.page || 1
-
 
         function escapeRegex(text) {
             return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -29,21 +27,24 @@ const indexQueryMiddleware = function (model, options) {
         let queryL
         let prm
 
-        console.log(req.params);
 
-        if (!req.params.categoryId && !req.query.searchData) {
+        if (!req.params.slug && !req.query.searchData) {
             prm = {}
             // console.log("yok");
         } else {
-            if (req.params.categoryId) {
-                prm = { category: req.params.categoryId }
-                queryL = latestPostsHelper(Post).populate({ path: "author", select: "username", model: User })
-                // console.log("category param");
+            if (req.params.slug) {
+                let cat = await Category.findOne({ slug: req.params.slug })
+                let id = cat._id
+                // console.log(await Post.find({ category: id }));
+
+                prm = { category: id }
+                queryL = latestPostsHelper(Post)
+                console.log("category param");
             }
             else if (req.query.searchData) {
                 const regex = new RegExp(escapeRegex(req.query.searchData), 'gi')
 
-                // console.log("sdata param");
+                console.log("sdata param");
                 prm = { "title": regex }
                 queryL = latestPostsHelper(Post)
             }
@@ -89,14 +90,22 @@ const indexQueryMiddleware = function (model, options) {
 const postQueryMiddleware = function (model, options) {
     return errorWrapper(async function (req, res, next) {
 
-        let query = model.findById(req.params.id)
+        let query = await model.findOne({ slug: req.params.slug })
+        // let query = await model.findById("5fa91b6fba923015f0ad0db3")
+
+
 
         let queryL = latestPostsHelper(Post)
 
-        if (options && options.populate) {
-            query = populateHelper(query, options.populate);
-            queryL = populateHelper(queryL, options.populate);
-        }
+
+        // if (options && options.populate) {
+        //     query = populateHelper(query, options.populate);
+
+        // }
+        //its reurn promise
+        query = query.populate({ path: "author", select: "username", model: User }).execPopulate()
+
+
 
         //get single posts
         const advanceQueryResults = await query;

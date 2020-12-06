@@ -1,9 +1,12 @@
 const Post = require("../models/Post");
 const Category = require('../models/Category');
 const User = require('../models/User');
-
+const urlSlug = require('url-slug');
 const errorWrapper = require("../helpers/error/errorWrapper.js");
 const CustomError = require("../helpers/error/customError");
+const limitGetPost = require("../helpers/limitGetPost");
+const { slugHelper } = require("../helpers/slug")
+
 
 //index operations
 const getAllPostsAndCategories = errorWrapper(async (req, res, next) => {
@@ -12,6 +15,7 @@ const getAllPostsAndCategories = errorWrapper(async (req, res, next) => {
         posts: res.d.data.map(d => {
             return {
                 title: d.title,
+                slug: d.slug,
                 subtitle: d.subtitle,
                 imageurl: d.imageurl,
                 date: d.date,
@@ -21,15 +25,16 @@ const getAllPostsAndCategories = errorWrapper(async (req, res, next) => {
             }
         })
     }
+
     const hbsSecureDataforCategories = {
         categories: res.d.categories.map(d => {
             return {
                 name: d.name,
                 id: d._id,
+                slug: d.slug
             }
         })
     }
-
 
     let latestPostDatas;
     if (res.d.dataL) {
@@ -37,6 +42,7 @@ const getAllPostsAndCategories = errorWrapper(async (req, res, next) => {
             data: res.d.dataL.map(a => {
                 return {
                     title: a.title,
+                    slug: a.slug,
                     imageurl: a.imageurl,
                     id: a._id,
                     date: a.date
@@ -69,6 +75,7 @@ const getSinglePostAndCategories = errorWrapper(async (req, res, next) => {
     const hbsSecureData = {
         id: post._id,
         title: post.title,
+        slug: post.slug,
         subtitle: post.subtitle,
         imageurl: post.imageurl,
         content: post.content,
@@ -83,6 +90,7 @@ const getSinglePostAndCategories = errorWrapper(async (req, res, next) => {
             return {
                 name: d.name,
                 id: d._id,
+                slug: d.slug
             }
         })
     }
@@ -94,6 +102,7 @@ const getSinglePostAndCategories = errorWrapper(async (req, res, next) => {
             data: res.d.dataL.map(a => {
                 return {
                     title: a.title,
+                    slug: a.slug,
                     imageurl: a.imageurl,
                     id: a._id,
                     date: a.date
@@ -119,8 +128,11 @@ const getSinglePostAndCategories = errorWrapper(async (req, res, next) => {
 const addNewPost = errorWrapper(async (req, res, next) => {
 
     const form = req.body.data
+    const slug = slugHelper(form.title)
+
     Post.create({
         ...form,
+        slug: slug,
         author: res.locals.currentUserId
     })
     next()
