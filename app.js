@@ -111,6 +111,6 @@ app.use((req, res, next) => {
 app.use("/", routes)
 
 
-app.listen(port, () => {
+app.listen(port || 3000, () => {
     console.log(`Blog app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`)
 })
