@@ -28,7 +28,7 @@ dotenv.config({
 const routes = require("./routes/index-route");
 
 const app = express()
-const port = process.env.PORT
+const port = process.env.PORT || 80
 
 app.use(methodOverride('_method'))
 
@@ -111,6 +111,6 @@ app.use((req, res, next) => {
 app.use("/", routes)
 
 
-app.listen(port || 3000, () => {
+app.listen(port, () => {
     console.log(`Blog app listening at \x1b[31mhttp://localhost:${port}\x1b[0m`)
 })
