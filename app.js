@@ -48,7 +48,7 @@ const hbs = exphbs.create({
 app.use(express.static("public"))
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
-app.use(favicon(path.join(__dirname, "./public/lighting.ico")))
+app.use(favicon(path.join(__dirname, "./public/favicon.ico")))
 
 //MORGAN LOGGER
 app.use(morgan('tiny'))
